@@ -1,0 +1,8 @@
+{
+  "name": "atlas",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Atlas module",
+  "main": "dist/index.js"
+}
