@@ -1,0 +1,32 @@
+    appId: com.konistiger.app
+    productName: KonisTiger
+    directories:
+      output: dist
+    files:
+      - package.json
+      - pnpm-lock.yaml
+      - build/**/*
+      - migrations/**/*
+      - assets/**/*
+      - packages/main/dist/**/*
+      - packages/preload/dist/**/*
+      - packages/renderer/out/**/*
+      - packages/shared/dist/**/*
+    extraResources:
+      - from: packages/renderer/out
+        to: renderer
+      - from: migrations
+        to: migrations
+    win:
+      target:
+        - nsis
+      artifactName: KonisTiger-${version}-win.${ext}
+    publish:
+      - provider: github
+        owner: YOUR_GH_OWNER
+        repo: YOUR_GH_REPO
+        releaseType: release
+    protocols:
+      name: KonisTiger
+      schemes: ["konistiger"]
+    

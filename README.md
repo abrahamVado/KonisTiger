@@ -1,30 +1,33 @@
-# Atlante
+    # KonisTiger
 
-## Purpose
-Principal Electron app that discovers, loads, and hosts all modules as plugins (the hub).
+    Electron + Next.js (App Router) + TypeScript monorepo with secure IPC, SQLite (`better-sqlite3`),
+    USB serial, printing, auto-launch, notifications, Playwright e2e, and Electron Builder packaging.
 
-### Example Uses
-- **Scenario A:** (Describe a concrete user flow this module enables.)
-- **Scenario B:** (Another realistic workflow with expected inputs/outputs.)
-- **Scenario C (Edge):** (What happens offline, on failure, or with large data.)
+    ## Quick start
 
----
+    ```bash
+    pnpm i
+    pnpm dev
+    ```
 
-## Developer Notes — *Super Comments*
-> This section guides implementation decisions as living documentation.
+    - Renderer: Next.js dev server on http://localhost:3000
+    - Electron launches after the renderer is ready.
 
-- **Security:** Threat model, permissions required, secret handling, error redaction.
-- **IPC Surface:** Namespaced channels (`atlas:*`), payload shapes, validation rules.
-- **Data Model:** Tables/keys (SQLite) or config schema; migration plan.
-- **UX Contracts:** User affordances, confirmations, and failure states.
-- **Performance:** Expected scale, caching, pagination/virtualization, snapshots.
-- **Testing:** Unit, IPC, end‑to‑end flows; fixtures and golden files.
+    ## Build and package (Windows .exe)
 
----
+    ```bash
+    pnpm build
+    pnpm dist:win
+    ```
 
-## Multilingual Notes
-- 日本語 (Japanese):
-  - こんにちは！日本から来た**佐藤愛子**です。Atlasは、すべての交換留学生（プラグイン）が教室と時間割を見つけるキャンパスのようだと感じています。これから、Atlasが各モジュールをどのように読み込み、検証し、
+    To publish to GitHub Releases (set `publish: always` token), set `GH_TOKEN` or rely on Actions' `GITHUB_TOKEN`:
 
-## Introduction (by an exchange student)
-Hello! I'm **Aiko Sato** from Japan. I see Atlas as the campus where every exchange student (plugin) finds a classroom and a schedule. I'll start by documenting how Atlas loads, verifies, and safely sandboxes each module.
+    ```bash
+    pnpm release:win
+    ```
+
+    ## Notes
+    - Production bundles serve the renderer via a custom `app://` protocol with **no remote URLs**.
+    - Strict Electron security: `contextIsolation`, `sandbox`, `nodeIntegration: false`, CSP, navigation blocked.
+    - DB at `${userData}/konistiger.db`. Migrations in `/migrations` are applied on first run.
+    
