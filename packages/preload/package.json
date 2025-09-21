@@ -10,7 +10,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@konistiger/shared": "0.1.0",
+    "@konistiger/shared": "workspace:*",
     "zod": "^3.23.8"
   },
   "devDependencies": {
