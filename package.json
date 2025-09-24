@@ -1,40 +1,60 @@
 {
-  "name": "konistiger",
-  "version": "0.1.0",
+  "name": "yamato-electron-static-auth",
+  "version": "1.1.0",
   "private": true,
-  "license": "MIT",
-  "packageManager": "pnpm@9.0.0",
-  "engines": {
-    "node": ">=20.0.0"
-  },
+  "description": "Electron static runner for Yamato with local auth backend (better-sqlite3) and prebuild-friendly config.",
+  "main": "main.js",
+  "type": "module",
   "scripts": {
-    "prepare": "husky install",
-    "dev": "concurrently -r -k \"pnpm --filter @konistiger/renderer dev\" \"pnpm --filter @konistiger/main dev\"",
-    "build": "pnpm -r build",
-    "typecheck": "pnpm -r typecheck",
-    "lint": "eslint .",
-    "format": "prettier -w .",
-    "test:e2e": "playwright test",
-    "dist:win": "electron-builder --win --config build/electron-builder.yml",
-    "release:win": "electron-builder --win --publish always --config build/electron-builder.yml"
+    "start": "electron .",
+    "dist": "electron-builder",
+    "pack": "electron-builder --dir",
+    "postinstall": "electron-builder install-app-deps && bash scripts/check-native.sh || echo 'check-native skipped on non-Unix'",
+    "rebuild": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.6.0",
+    "bcryptjs": "^2.4.3",
+    "electron-store": "^9.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "nanoid": "^5.0.7",
+    "simple-git": "^3.24.0"
   },
   "devDependencies": {
-    "@types/node": "^20.14.10",
-    "@typescript-eslint/eslint-plugin": "^8.44.0",
-    "@typescript-eslint/parser": "^8.44.0",
-    "concurrently": "^9.0.0",
-    "electron-builder": "^24.13.3",
-    "eslint": "^9.8.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.35.0",
-    "eslint-plugin-react-hooks": "^5.1.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.7",
-    "playwright": "^1.46.0",
-    "prettier": "^3.3.2",
-    "tsup": "^8.0.2",
-    "tsx": "^4.16.2",
-    "typescript": "^5.5.4",
-    "wait-on": "^8.0.2"
+    "electron": "30.0.0",
+    "electron-builder": "24.13.3"
+  },
+  "build": {
+    "appId": "com.abraham.yamato.staticauth",
+    "productName": "Yamato Static (with Auth)",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**",
+      "src/**",
+      "scripts/**",
+      "package.json"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "npmRebuild": false,
+    "buildDependenciesFromSource": false,
+    "nodeGypRebuild": false,
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development"
+    }
   }
 }

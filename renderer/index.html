@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' app:; script-src 'self' app:'unsafe-eval'; style-src 'self' 'unsafe-inline' app:; img-src 'self' data: app:;">
+    <title>Yamato Static (Auth)</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 16px; color: #111; }
+      .row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+      input[type=text], input[type=password], input[type=email] { flex: 1; padding: 6px 8px; }
+      button { padding: 6px 10px; }
+      .logs { height: 180px; border: 1px solid #ccc; padding: 8px; overflow: auto; white-space: pre-wrap; background: #fafafa; }
+      .card { border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 12px; }
+      .hint { font-size: 12px; color: #555; }
+      code { background: #f2f2f2; padding: 2px 4px; border-radius: 4px; }
+      h1 { margin-top: 0; }
+      .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    </style>
+  </head>
+  <body>
+    <h1>Yamato Static (with Auth)</h1>
+    <p>Clone Yamato, export static, then load <code>app://yamato/</code>. Local auth backend available via <code>window.auth</code>.</p>
+
+    <div class="card">
+      <h3>Repository</h3>
+      <div class="row">
+        <label>Repo URL</label>
+        <input id="repoUrl" type="text" />
+        <button id="saveRepo">Save</button>
+      </div>
+      <div class="row">
+        <label>Base folder</label>
+        <input id="baseDir" type="text" readonly />
+        <button id="pickBase">Choose…</button>
+      </div>
+      <div class="row">
+        <button id="clone">Clone</button>
+        <button id="pull">Pull</button>
+        <button id="install">pnpm i</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Static Export</h3>
+      <div class="row">
+        <button id="export">Build + Export + Load</button>
+      </div>
+      <div class="hint">Uses <code>ELECTRON_STATIC=1</code> for export-friendly Next config.</div>
+    </div>
+
+    <div class="cols">
+      <div class="card">
+        <h3>Auth (demo)</h3>
+        <div class="row"><input id="email" type="email" placeholder="email@example.com" /></div>
+        <div class="row"><input id="pwd" type="password" placeholder="password (>=8 chars)" /></div>
+        <div class="row">
+          <button id="btnRegister">Register</button>
+          <button id="btnLogin">Login</button>
+        </div>
+        <div class="row">
+          <button id="btnStartVerify">Start Verify</button>
+          <input id="codeVer" type="text" placeholder="verification code" />
+          <button id="btnConfirmVerify">Confirm Verify</button>
+        </div>
+        <div class="row">
+          <button id="btnStartReset">Start Reset</button>
+          <input id="codeReset" type="text" placeholder="reset code" />
+          <input id="newPwd" type="password" placeholder="new password" />
+          <button id="btnConfirmReset">Confirm Reset</button>
+        </div>
+        <div class="hint">Codes are returned directly (no SMTP configured). Integrate with your UI as needed.</div>
+      </div>
+
+      <div class="card">
+        <h3>Logs</h3>
+        <div id="logs" class="logs"></div>
+      </div>
+    </div>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
